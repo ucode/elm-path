@@ -1,6 +1,6 @@
 # Filepath manipulation library for elm
 
-This is a fork of [JustusAdam/elm-path](http://package.elm-lang.org/packages/JustusAdam/elm-path/1.3.0). It has been brought up to date with Elm version 0.18.0. The native portion of the library for datecting the current platform has been removed.
+This is a fork of [JustusAdam/elm-path](http://package.elm-lang.org/packages/JustusAdam/elm-path/1.3.0). It has been brought up to date with Elm version 0.18.0. The native portion of the library for detecting the current platform has been removed.
 
 This is largely a rewrite of the `filepath` Haskell package.
 
