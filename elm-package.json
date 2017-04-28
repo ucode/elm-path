@@ -1,7 +1,7 @@
 {
     "version": "1.3.0",
     "summary": "Path manipulations for elm programs",
-    "repository": "https://github.com/JustusAdam/elm-path.git",
+    "repository": "https://github.com/ucode/elm-path.git",
     "license": "MIT",
     "source-directories": [
         "src"
