@@ -1,4 +1,4 @@
-module Path.Url (
+module Path.Url exposing (
     -- * Separator predicates
     pathSeparator, pathSeparators, isPathSeparator,
     extSeparator, isExtSeparator,
@@ -21,7 +21,7 @@ module Path.Url (
     hasTrailingPathSeparator,
     addTrailingPathSeparator,
     dropTrailingPathSeparator
-    ) where
+    )
 
 {-|
 Specialized path manipulation functions for working with filepaths as found on the web. For documentation on the API refer to 'Path.Generic'.
@@ -48,8 +48,6 @@ Since operator reexport does not seem to work, <.> and -<.> have to be imported 
 
 import Path.Generic as Generic
 
-
-infixr 5  </>
 
 currPlatform : Generic.Platform
 currPlatform = Generic.Url
@@ -130,7 +128,7 @@ splitExtension = Generic.splitExtension
 Get the extension of a file, returns "" for no extension, .ext otherwise.
 
     takeExtension "/directory/path.ext" == ".ext"
-    takeExtension x == snd (splitExtension x)
+    takeExtension x == Tuple.second (splitExtension x)
     Valid x => takeExtension (addExtension x "ext") == ".ext"
     Valid x => takeExtension (replaceExtension x "ext") == ".ext"
 -}
@@ -165,7 +163,7 @@ Operator version of `replaceExtension`
 Remove last extension, and the "." preceding it.
 
     dropExtension "/directory/path.ext" == "/directory/path"
-    dropExtension x == fst (splitExtension x)
+    dropExtension x == Tuple.first (splitExtension x)
 -}
 dropExtension : String -> String
 dropExtension = Generic.dropExtension
@@ -246,7 +244,7 @@ Split a filename into directory and file. `combine` is the inverse.
 The first component will often end with a trailing slash.
 
     splitFileName "/directory/file.ext" == ("/directory/","file.ext")
-    Valid x => isValid (fst (splitFileName x))
+    Valid x => isValid (Tuple.first (splitFileName x))
     splitFileName "file/bob.txt" == ("file/", "bob.txt")
     splitFileName "file/" == ("file/", "")
     splitFileName "bob" == ("", "bob")
@@ -261,7 +259,7 @@ Get the file name.
     takeFileName "/directory/file.ext" == "file.ext"
     takeFileName "test/" == ""
     takeFileName x `isSuffixOf` x
-    takeFileName x == snd (splitFileName x)
+    takeFileName x == Tuple.second (splitFileName x)
     Valid x => takeFileName (replaceFileName x "fred") == "fred"
     Valid x => takeFileName (x </> "fred") == "fred"
     Valid x => isRelative (takeFileName x)
@@ -285,7 +283,7 @@ Drop the filename. Unlike `takeDirectory`, this function will leave
 a trailing path separator on the directory.
 
     dropFileName "/directory/file.ext" == "/directory/"
-    dropFileName x == fst (splitFileName x)
+    dropFileName x == Tuple.first (splitFileName x)
 -}
 dropFileName : String -> String
 dropFileName = Generic.dropFileName currPlatform

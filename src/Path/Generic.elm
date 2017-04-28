@@ -1,4 +1,4 @@
-module Path.Generic (
+module Path.Generic exposing (
     -- * Platforms
     Platform(Windows, Posix, Url),
 
@@ -23,7 +23,7 @@ module Path.Generic (
     hasTrailingPathSeparator,
     addTrailingPathSeparator,
     dropTrailingPathSeparator
-    ) where
+    )
 {-|
 Functions for working with paths, parameterized over the platform.
 
@@ -146,12 +146,12 @@ splitExtension path =
 Get the extension of a file, returns "" for no extension, .ext otherwise.
 
     takeExtension "/directory/path.ext" == ".ext"
-    takeExtension x == snd (splitExtension x)
+    takeExtension x == Tuple.second (splitExtension x)
     Valid x => takeExtension (addExtension x "ext") == ".ext"
     Valid x => takeExtension (replaceExtension x "ext") == ".ext"
 -}
 takeExtension : String -> String
-takeExtension = splitExtension >> snd
+takeExtension = splitExtension >> Tuple.second
 
 
 {-|
@@ -168,7 +168,7 @@ Set the extension of a file, overwriting one if already present, equivalent to `
 -}
 replaceExtension : String -> String -> String
 replaceExtension path ext =
-  splitExtension path |> fst |> (flip (++) <| normalizeExt ext)
+  splitExtension path |> Tuple.first |> (flip (++) <| normalizeExt ext)
 
 
 {-|
@@ -182,10 +182,10 @@ Operator version of `replaceExtension`
 Remove last extension, and the "." preceding it.
 
     dropExtension "/directory/path.ext" == "/directory/path"
-    dropExtension x == fst (splitExtension x)
+    dropExtension x == Tuple.first (splitExtension x)
 -}
 dropExtension : String -> String
-dropExtension = splitExtension >> fst
+dropExtension = splitExtension >> Tuple.first
 
 
 {-|
@@ -218,7 +218,7 @@ Does the given filename have an extension?
     ull (takeExtension x) == not (hasExtension x)
 -}
 hasExtension : String -> Bool
-hasExtension = splitExtension >> snd >> String.isEmpty
+hasExtension = splitExtension >> Tuple.second >> String.isEmpty
 
 
 {-|
@@ -245,7 +245,7 @@ Get all extensions.
     takeExtensions "file.tar.gz" == ".tar.gz"
 -}
 takeExtensions : String -> String
-takeExtensions = splitExtensions >> snd
+takeExtensions = splitExtensions >> Tuple.second
 
 
 {-|
@@ -257,7 +257,7 @@ Drop all extensions.
     not <| any isExtSeparator <| takeFileName <| dropExtensions x
 -}
 dropExtensions : String -> String
-dropExtensions = splitExtensions >> fst
+dropExtensions = splitExtensions >> Tuple.first
 
 
 {-|
@@ -267,7 +267,7 @@ Split a filename into directory and file. `combine` is the inverse.
 The first component will often end with a trailing slash.
 
     splitFileName "/directory/file.ext" == ("/directory/","file.ext")
-    Valid x => isValid (fst (splitFileName x))
+    Valid x => isValid (Tuple.first (splitFileName x))
     splitFileName "file/bob.txt" == ("file/", "bob.txt")
     splitFileName "file/" == ("file/", "")
     splitFileName "bob" == ("", "bob")
@@ -286,13 +286,13 @@ Get the file name.
     takeFileName "/directory/file.ext" == "file.ext"
     takeFileName "test/" == ""
     takeFileName x `isSuffixOf` x
-    takeFileName x == snd (splitFileName x)
+    takeFileName x == Tuple.second (splitFileName x)
     Valid x => takeFileName (replaceFileName x "fred") == "fred"
     Valid x => takeFileName (x </> "fred") == "fred"
     Valid x => isRelative (takeFileName x)
 -}
 takeFileName : Platform -> String -> String
-takeFileName platform = splitFileName platform >> snd
+takeFileName platform = splitFileName platform >> Tuple.second
 
 
 {-|
@@ -310,10 +310,10 @@ Drop the filename. Unlike `takeDirectory`, this function will leave
 a trailing path separator on the directory.
 
     dropFileName "/directory/file.ext" == "/directory/"
-    dropFileName x == fst (splitFileName x)
+    dropFileName x == Tuple.first (splitFileName x)
 -}
 dropFileName : Platform -> String -> String
-dropFileName platform = splitFileName platform >> fst
+dropFileName platform = splitFileName platform >> Tuple.first
 
 
 {-|
@@ -364,7 +364,7 @@ Get the directory name, move up one level.
     Windows:  takeDirectory "foo\\bar\\\\" == "foo\\bar"
 -}
 takeDirectory : Platform -> String -> String
-takeDirectory platform = splitFileName platform >> fst
+takeDirectory platform = splitFileName platform >> Tuple.first
 
 
 {-|
